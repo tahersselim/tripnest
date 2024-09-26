@@ -1,8 +1,9 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import NextAuth, { getServerSession, User } from "next-auth";
+import NextAuth, { getServerSession, Session, User } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import FacebookProvider from "next-auth/providers/facebook";
 import prisma from "./connect"; 
+import { JWT } from "next-auth/jwt";
 
 type Role = 'USER' | 'ADMIN';
 
@@ -40,15 +41,16 @@ export const authOptions = {
     }),
   ],
   callbacks: {
-    async session({ token, session }: { token: any; session: any }) {
+    async session({ token, session }: { token: JWT; session: Session }) {
       if (token) {
-        session.user.id = token.id; 
+        session.user = session.user || {}; 
+        session.user.id = token.id;
         session.user.role = token.role;
         session.user.isAdmin = token.role === "ADMIN";
       }
       return session;
     },
-    async jwt({ token, user }: { token: any; user?: any }) {
+    async jwt({ token, user }: { token: JWT; user?: User }) {
       if (user) {
         token.id = user.id;
       }

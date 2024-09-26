@@ -178,7 +178,11 @@ const BookingPage: React.FC<{ params: { id: number } }> = ({ params }) => {
                 Back to DB
             </Link>
             <section className="bg-white p-6 rounded-lg shadow-md ">
-                <form onSubmit={(e) => handleUpdates(e, trips?.id!)}>
+                <form onSubmit={(e) => {
+                    if (trips && trips.id) {
+                        handleUpdates(e, trips.id);
+                    }
+                }}>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label htmlFor="TripTitle" className="block text-gray-700 mb-1">Trip Title</label>
@@ -257,14 +261,14 @@ const BookingPage: React.FC<{ params: { id: number } }> = ({ params }) => {
                             />
                         </div>
                         <div>
-                                <label htmlFor="CutOff" className="block text-gray-700 mb-1">Cutoff-Time In Minutes</label>
-                                <input
-                                    type="number" id="cutoff" name="cutoff"
-                                    placeholder='60'
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-md"
-                                    required
-                                />
-                            </div>
+                            <label htmlFor="CutOff" className="block text-gray-700 mb-1">Cutoff-Time In Minutes</label>
+                            <input
+                                type="number" id="cutoff" name="cutoff"
+                                placeholder='60'
+                                className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                                required
+                            />
+                        </div>
                         <div>
                             <label htmlFor="returnDate" className="block text-gray-700 mb-1">Return Date</label>
                             <input

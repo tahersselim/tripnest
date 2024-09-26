@@ -7,15 +7,23 @@ export type User = {
   role: string
   adminUser:Admin;
 };
-
+export type email = {
+  email: string;
+}
 export type Trip = {
+  trip:Trip;
   id: number;
   title: string;
   description: string;
   price: number;
+  status:string;
   cutOffTimeInMinutes: number;
   totalprice: number;
+  totalPrice:number;
+  createdBy:email;
   availableSeats: number;
+  bookingId:number;
+  paymentStatus:string;
   duration: string;
   destination: string;
   imageUrl: string;
@@ -27,10 +35,10 @@ export type booking = {
   trip: Trip;
   tripId: number;
   user: User;
-  phoneNumber: String;
+  phoneNumber: string;
   Admin: Admin;
-  Address: String;
-  userId: String;
+  Address: string;
+  userId: string;
   bookingDate: string;
   status: string;
   paymentStatus: string;
@@ -39,9 +47,9 @@ export type booking = {
 };
 export type Admin = {
   id:number;
-  name:String;
-  email:String; 
-  password:String
+  name:string;
+  email:string; 
+  password:string
   role:string;
   createdAt: string;
   updatedAt: string;

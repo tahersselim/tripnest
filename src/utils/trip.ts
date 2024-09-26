@@ -17,7 +17,7 @@ const INITIAL_STATE = {
 
 export const useTrip = create<TripStore & ActionTypes>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       // Initial state
       ...INITIAL_STATE,
 

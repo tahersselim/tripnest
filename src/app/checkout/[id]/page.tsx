@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 
 
 const CheckoutPage: React.FC<{ params: { id: number } }> = ({ params }) => {
-  const { data: session, status } = useSession();
+  const {  status } = useSession();
   const [Booking, setBooking] = useState<booking | null>(null);
   const [Trip, setTrip] = useState<Trip | null>(null);
   const [User, setUser] = useState<User | null>(null);

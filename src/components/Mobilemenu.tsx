@@ -6,7 +6,7 @@ import { useState } from "react";
 
 const Mobilemenu = () => {
     const [dropdownMobileMenu, setMobileMenuOpen] = useState(false);
-    const { data: session, status } = useSession();
+    const { data: session } = useSession();
     const handleMobileMenu = () => {
         setMobileMenuOpen(!dropdownMobileMenu);
     };

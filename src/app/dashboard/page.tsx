@@ -147,7 +147,7 @@ const Dashboard = () => {
               </tr>
             </thead>
             <tbody>
-              {trips.map((trip: any) => (
+              {trips.map((trip:Trip) => (
                 <tr key={trip.id} className="border-t">
                   <td className="p-4">{trip.trip.destination}</td>
                   <td className="p-4">{(trip.trip.departureDate).slice(0, 10) + " At " + (trip.trip.departureDate).slice(11, 16)}</td>

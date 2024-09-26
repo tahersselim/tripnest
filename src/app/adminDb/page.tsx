@@ -82,7 +82,7 @@ const AdminDashboard: React.FC = () => {
     fetchData();
   }, [router, status]);
 
-  const { isPending, error, data } = useQuery({
+  const { isPending, data } = useQuery({
     queryKey: ['users'],
     queryFn: async () => {
       const res = await fetch('/api/user')
@@ -218,6 +218,7 @@ const AdminDashboard: React.FC = () => {
                     <th className="py-2 px-2 md:px-4 bg-green-100 text-left text-gray-700 font-bold">Name</th>
                     <th className="py-2 px-2 md:px-4 bg-green-100 text-left text-gray-700 font-bold">Email</th>
                     <th className="py-2 px-2 md:px-4 bg-green-100 text-left text-gray-700 font-bold">Role</th>
+                    <th className="py-2 px-2 md:px-4 bg-green-100 text-left text-gray-700 font-bold">Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -266,7 +267,7 @@ const AdminDashboard: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-                {bookings.map((booking: any) => (
+                {bookings.map((booking: booking) => (
                   <tr key={booking.id} className="border-t">
                     <td className="py-2 px-2 md:px-4 border-b">
                       <Link href={`adminDb/editbookings/${booking.id}`} className=" hover:underline hover:text-blue-600 ">
@@ -328,7 +329,7 @@ const AdminDashboard: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-                {payments.map((payment: any) => (
+                {payments.map((payment: payment) => (
                   <tr key={payment.id} className={`border-t ${payment.paymentStatus === "UNPAID" ? "bg-red-200" : ""}`}>
                     <td className="py-2 px-2 md:px-4 border-b">
                       <Link href={`adminDb/editbookings/${payment.id}`} className=" hover:underline hover:text-blue-600 ">
@@ -378,7 +379,7 @@ const AdminDashboard: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-                {trips.map((trip: any) => (
+                {trips.map((trip: Trip) => (
                   <tr key={trip.id} className={'border-t'}>
                     <td className="py-2 px-2 md:px-4 border-b">
                       <Link href={`/trip/${trip.id}`} className=" hover:underline hover:text-blue-600 ">
@@ -435,7 +436,7 @@ const AdminDashboard: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-                {admins.map((admin: any) => (
+                {admins.map((admin: Admin) => (
                   <tr key={admin.id} className='border-t'>
                     <td className="py-2 px-2 md:px-4 border-b">{admin.id}</td>
                     <td className="py-2 px-2 md:px-4 border-b">{admin.name}</td>
