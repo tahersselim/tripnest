@@ -6,7 +6,7 @@ export const POST = async (req: NextRequest) => {
   const session = await getAuthSession();
 
   // Check if the user is authenticated and has admin privileges
-  if (session.user.isAdmin) {
+  if (session?.user.isAdmin) {
     try {
       const body = await req.json();
       const { email } = body;

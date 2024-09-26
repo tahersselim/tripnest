@@ -64,44 +64,45 @@ export const DELETE = async (
 
   try {
     const email = session.user.email;
-
-    const adminUser = await prisma.admin.findUnique({
-      where: { email },
-    });
-
-    if (!adminUser) {
-      return new NextResponse(
-        JSON.stringify({ message: "User doesn't exist in the admin table." }),
-        { status: 404 }
-      );
-    }
-
-    if (adminUser.role !== "ADMIN") {
-      return new NextResponse(
-        JSON.stringify({ message: "User is not an admin." }),
-        { status: 403 }
-      );
-    }
-
-    const trip = await prisma.trip.findUnique({
-      where: { id: tripId },
-    });
-
-    if (!trip) {
-      return new NextResponse(JSON.stringify({ message: "Trip not found." }), {
-        status: 404,
+    if (email) {
+      const adminUser = await prisma.admin.findUnique({
+        where: { email },
       });
-    }
 
-    await prisma.trip.delete({
-      where: { id: tripId },
-    });
+      if (!adminUser) {
+        return new NextResponse(
+          JSON.stringify({ message: "User doesn't exist in the admin table." }),
+          { status: 404 }
+        );
+      }
 
-    return new NextResponse(
-      JSON.stringify({ message: "Trip has been deleted successfully." }),
-      { status: 200 }
-    );
-  } catch (error) {
+      if (adminUser.role !== "ADMIN") {
+        return new NextResponse(
+          JSON.stringify({ message: "User is not an admin." }),
+          { status: 403 }
+        );
+      }
+
+      const trip = await prisma.trip.findUnique({
+        where: { id: tripId },
+      });
+
+      if (!trip) {
+        return new NextResponse(JSON.stringify({ message: "Trip not found." }), {
+          status: 404,
+        });
+      }
+
+      await prisma.trip.delete({
+        where: { id: tripId },
+      });
+
+      return new NextResponse(
+        JSON.stringify({ message: "Trip has been deleted successfully." }),
+        { status: 200 }
+      );
+    } 
+  } catch (error) { 
     console.error("Error deleting trip:", error);
     return new NextResponse(
       JSON.stringify({
@@ -109,11 +110,9 @@ export const DELETE = async (
       }),
       { status: 500 }
     );
-  }
+  } 
 };
-
-
-
+  
 export const PUT = async (
   req: NextRequest,
   { params }: { params: { id: string } }
@@ -130,12 +129,21 @@ export const PUT = async (
   }
 
   // Validate admin existence
+  const email = session.user.email; // Extract email first
+
+  if (!email) { // Check if email is null or undefined
+    return new NextResponse(
+      JSON.stringify({ message: "Unauthorized access." }),
+      { status: 403 }
+    );
+  }
+
   const adminUser = await prisma.admin.findUnique({
     where: {
-      email: session.user.email,
+      email: email, // Use email safely here
     },
   });
-  
+
   if (!adminUser) {
     return new NextResponse(
       JSON.stringify({ message: "Unauthorized access." }),
@@ -174,7 +182,9 @@ export const PUT = async (
 
     if (retDate <= depDate) {
       return new NextResponse(
-        JSON.stringify({ message: "Return date must be after the departure date." }),
+        JSON.stringify({
+          message: "Return date must be after the departure date.",
+        }),
         { status: 400 }
       );
     }
@@ -209,4 +219,3 @@ export const PUT = async (
     );
   }
 };
-
