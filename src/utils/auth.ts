@@ -32,12 +32,12 @@ export const authOptions = {
   },
   providers: [
     GoogleProvider({
-      clientId: process.env.AUTH_GOOGLE_ID!,
-      clientSecret: process.env.AUTH_GOOGLE_SECRET!,
+      clientId: process.env.AUTH_GOOGLE_ID || '', // Provide default value
+      clientSecret: process.env.AUTH_GOOGLE_SECRET || '', // Provide default value
     }),
     FacebookProvider({
-      clientId: process.env.AUTH_FACEBOOK_ID!,
-      clientSecret: process.env.AUTH_FACEBOOK_SECRET!,
+      clientId: process.env.AUTH_FACEBOOK_ID || '', // Provide default value
+      clientSecret: process.env.AUTH_FACEBOOK_SECRET || '', // Provide default value
     }),
   ],
   callbacks: {
@@ -45,7 +45,7 @@ export const authOptions = {
       if (token) {
         session.user = session.user || {}; 
         session.user.id = token.id;
-        session.user.role = token.role;
+        session.user.role = token.role || 'USER'; // Ensure role is set
         session.user.isAdmin = token.role === "ADMIN";
       }
       return session;
@@ -55,9 +55,10 @@ export const authOptions = {
         token.id = user.id;
       }
 
+      // Fetch user from the database
       const userInDb = await prisma.user.findUnique({
         where: {
-          email: token.email!,
+          email: token.email || '', // Provide default value
         },
         select: {
           id: true,  
@@ -65,9 +66,15 @@ export const authOptions = {
         },
       });
 
-      token.role = userInDb?.role || "USER";
+      // Handle user not found case
+      if (userInDb) {
+        token.role = userInDb.role;
+        token.id = userInDb.id;  
+      } else {
+        token.role = "USER"; // Default role if not found
+      }
+
       token.isAdmin = token.role === "ADMIN";
-      token.id = userInDb?.id || token.id;  
 
       return token;
     },
