@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres
+    container_name: tripnest_db
+    environment:
+      POSTGRES_USER: tripnest_user
+      POSTGRES_PASSWORD: tripnest_pass
+      POSTGRES_DB: tripnest_db
+    volumes:
+      - tripnest_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432" 
+volumes:
+  tripnest_data:
