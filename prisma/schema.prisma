@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -20,14 +14,14 @@ model User {
   emailVerified  DateTime?       @map("email_verified")
   image          String?
   PhoneNumber    String?
-  accounts       Account[]
-  sessions       Session[]
-  authenticators Authenticator[]
-  bookings       Booking[]
   role           Role            @default(USER)
   createdAt      DateTime        @default(now())
   updatedAt      DateTime        @updatedAt
+  authenticators Authenticator[]
+  bookings       Booking[]
   Payment        Payment[]
+  accounts       Account[]
+  sessions       Session[]
 
   @@map("users")
 }
@@ -38,15 +32,14 @@ model Account {
   type              String
   provider          String
   providerAccountId String  @map("provider_account_id")
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String?
   session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
   @@map("accounts")
@@ -57,9 +50,9 @@ model Session {
   sessionToken String   @unique @map("session_token")
   userId       String   @map("user_id")
   expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("sessions")
 }
@@ -71,13 +64,7 @@ model Admin {
   role      Role     @default(ADMIN)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  Trip Trip[]
-}
-
-enum Role {
-  USER
-  ADMIN
+  Trip      Trip[]
 }
 
 model VerificationToken {
@@ -89,7 +76,6 @@ model VerificationToken {
   @@map("verificationtokens")
 }
 
-// Optional for WebAuthn support
 model Authenticator {
   credentialID         String  @unique
   userId               String
@@ -99,8 +85,7 @@ model Authenticator {
   credentialDeviceType String
   credentialBackedUp   Boolean
   transports           String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user                 User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([userId, credentialID])
 }
@@ -112,24 +97,21 @@ model Trip {
   description         String
   price               Float
   duration            String
-  cutOffTimeInMinutes Int    @default(60)
   availableSeats      Int
   departureDate       DateTime
   returnDate          DateTime
   imageUrl            String
-  createdBy           Admin     @relation(fields: [createdById], references: [id])
   createdById         String
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+  cutOffTimeInMinutes Int       @default(60)
   bookings            Booking[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdBy           Admin     @relation(fields: [createdById], references: [id])
 }
 
 model Booking {
   id            Int           @id @default(autoincrement())
-  trip          Trip          @relation(fields: [tripId], references: [id])
   tripId        Int
-  user          User          @relation(fields: [userId], references: [id])
   phoneNumber   String?
   Address       String?
   userId        String
@@ -138,11 +120,31 @@ model Booking {
   paymentStatus PaymentStatus @default(UNPAID)
   numberOfSeats Int
   totalPrice    Float
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  trip          Trip          @relation(fields: [tripId], references: [id])
+  user          User          @relation(fields: [userId], references: [id])
+  payments      Payment[]
+}
 
-  payments Payment[]
+model Payment {
+  id            Int           @id @default(autoincrement())
+  bookingId     Int
+  userId        String
+  paymentMethod PaymentMethod
+  amount        Float
+  paymentDate   DateTime      @default(now())
+  paymentStatus PaymentStatus @default(UNPAID)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  paymentId     Int           @unique
+  booking       Booking       @relation(fields: [bookingId], references: [id])
+  user          User          @relation(fields: [userId], references: [id])
+}
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+enum Role {
+  USER
+  ADMIN
 }
 
 enum BookingStatus {
@@ -154,22 +156,6 @@ enum BookingStatus {
 enum PaymentStatus {
   PAID
   UNPAID
-}
-
-model Payment {
-  id            Int           @id @default(autoincrement())
-  paymentId     Int           @unique
-  booking       Booking       @relation(fields: [bookingId], references: [id])
-  bookingId     Int
-  user          User          @relation(fields: [userId], references: [id])
-  userId        String
-  paymentMethod PaymentMethod
-  amount        Float
-  paymentDate   DateTime      @default(now())
-  paymentStatus PaymentStatus @default(UNPAID)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
 
 enum PaymentMethod {
