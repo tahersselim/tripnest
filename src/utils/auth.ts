@@ -31,10 +31,10 @@ export const authOptions = {
     strategy: "jwt" as const, 
   },
   providers: [
-    GoogleProvider({
-      clientId: process.env.AUTH_GOOGLE_ID || '', // Provide default value
-      clientSecret: process.env.AUTH_GOOGLE_SECRET || '', // Provide default value
-    }),
+    // GoogleProvider({
+    //   clientId: process.env.AUTH_GOOGLE_ID || '', // Provide default value
+    //   clientSecret: process.env.AUTH_GOOGLE_SECRET || '', // Provide default value
+    // }),
     FacebookProvider({
       clientId: process.env.AUTH_FACEBOOK_ID || '', // Provide default value
       clientSecret: process.env.AUTH_FACEBOOK_SECRET || '', // Provide default value
