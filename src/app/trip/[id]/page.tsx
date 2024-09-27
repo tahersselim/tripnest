@@ -65,7 +65,7 @@ const Trips = async ({ params }: Props) => {
                 <strong>Available Seats:</strong> {trip.availableSeats}
               </li>
               <li>
-                <strong>Price:</strong> ${trip.price}
+                <strong>Price:</strong> EGP{trip.price}
               </li>
               <li>
                 <strong>Duration:</strong> {trip.duration}

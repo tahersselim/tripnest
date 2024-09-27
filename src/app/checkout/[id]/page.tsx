@@ -63,9 +63,11 @@ const CheckoutPage: React.FC<{ params: { id: number } }> = ({ params }) => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          api_key: 'ZXlKaGJHY2lPaUpJVXpVeE1pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SmpiR0Z6Y3lJNklrMWxjbU5vWVc1MElpd2ljSEp2Wm1sc1pWOXdheUk2T1RrMU56RTVMQ0p1WVcxbElqb2lNVGN5TmpNMU16UTNOUzQ1TVRrek5DSjkuOXVrVG5HX1NTRkVkLVVqU21iYnk1SUNzN3h5TVV5UHJVRjdWSzBQd1ZURExzWEVqcGJoNlNiN1pZQVlCaEdmQ2hlWDd1YmM3RlJ3bERfQUhkOG5SY2c=',
+          api_key: process.env.NEXT_PUBLIC_PAYMOB_API_KEY,
         })
       });
+      console.log(process.env.NEXT_PUBLIC_PAYMOB_API_KEY);
+      
       const data = await response.json();
       const token = data.token
       try {
