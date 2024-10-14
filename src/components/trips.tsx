@@ -12,7 +12,7 @@ interface Trip {
 const getData = async (): Promise<Trip[]> => {
   try {
     const res = await fetch("http://localhost:3000/api/trips", {
-      cache: "no-store",
+      cache: 'default',
     });
     if (!res.ok) {
       throw new Error("Failed to fetch trips");
