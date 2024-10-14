@@ -4,7 +4,7 @@ import React from 'react';
 
 // Fetch trip data
 const getData = async (id: number) => {
-  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/trips/${id}`, { cache: "no-store" });
+  const res = await fetch(`${process.env.AUTH_URL}/api/trips/${id}`, { cache: 'default' });
   if (!res.ok) {
     throw new Error("Failed to fetch trip data!");
   }

@@ -28,7 +28,7 @@ const BookingPage: React.FC<{ params: { id: number } }> = ({ params }) => {
                 return;
             }
             try {
-                const res = await fetch(`/api/admin/payment/${params.id}`, { cache: "no-store" });
+                const res = await fetch(`/api/admin/payment/${params.id}`, { cache: 'default' });
                 if (!res.ok) {
                     throw new Error("Failed to fetch data!");
                 }

@@ -29,7 +29,7 @@ const BookingPage: React.FC<{ params: { id: number } }> = ({ params }) => {
                 return;
             }
             try {
-                const res = await fetch(`/api/trips/${params.id}`, { cache: "no-store" });
+                const res = await fetch(`/api/trips/${params.id}`, { cache: 'default' });
                 if (!res.ok) {
                     throw new Error("Failed to fetch data!");
                 }
@@ -47,7 +47,7 @@ const BookingPage: React.FC<{ params: { id: number } }> = ({ params }) => {
 
     const handleDelete = async () => {
         try {
-            const res = await fetch(`http://localhost:3000/api/trips/${params.id}`, {
+            const res = await fetch(`${process.env.AUTH_URL}/api/trips/${params.id}`, {
                 method: "DELETE",
             });
 
@@ -129,7 +129,7 @@ const BookingPage: React.FC<{ params: { id: number } }> = ({ params }) => {
         };
 
         try {
-            const res = await fetch(`http://localhost:3000/api/trips/${tripId}`, {
+            const res = await fetch(`${process.env.AUTH_URL}/api/trips/${tripId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

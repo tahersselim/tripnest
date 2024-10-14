@@ -10,7 +10,7 @@ const About = () => {
         <h1 className="text-4xl font-bold text-gray-900 text-center">About Us</h1>
         <div className="mt-10">
           <Image
-            src="/about-us.jpg" // Replace with your image
+            src="/about-us.jpg" 
             alt="About Us"
             width={800}
             height={400}

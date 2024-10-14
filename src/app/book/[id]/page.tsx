@@ -7,8 +7,8 @@ import { toast } from 'react-toastify';
 
 const getData = async (): Promise<User | null> => {
     try {
-        const res = await fetch("http://localhost:3000/api/user", {
-            cache: "no-store",
+        const res = await fetch(`${process.env.AUTH_URL}/api/user`, {
+            cache: 'default',
         });
         if (!res.ok) {
             throw new Error("Failed to fetch user data");

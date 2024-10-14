@@ -9,7 +9,7 @@ const BookingPage: React.FC = () => {
     const { data: session, status } = useSession();
     const router = useRouter();
     const [file, setFile] = useState<File>();
-    const [loading, setLoading] = useState<boolean>(false); // Initial loading is set to false
+    const [loading, setLoading] = useState<boolean>(false); 
 
     useEffect(() => {
         if (status === "unauthenticated") {

@@ -10,8 +10,8 @@ import { toast } from "react-toastify";
 
 const getData = async (): Promise<User | null> => {
   try {
-    const res = await fetch("http://localhost:3000/api/user", {
-      cache: "no-store",
+    const res = await fetch(`${process.env.AUTH_URL}/api/user`, {
+      cache: 'default',
     });
     if (!res.ok) {
       throw new Error("Failed to fetch user data");
@@ -54,7 +54,7 @@ const Dashboard = () => {
   const { data: trips, isLoading, error } = useQuery<Trip[]>({
     queryKey: ["trips"],
     queryFn: async () => {
-      const res = await fetch("http://localhost:3000/api/usertrips", {
+      const res = await fetch(`${process.env.AUTH_URL}/api/usertrips`, {
         cache: "no-store",
       });
       if (!res.ok) {
@@ -69,7 +69,7 @@ const Dashboard = () => {
 
   const mutation = useMutation({
     mutationFn: async ({ id }: { id: number }) => {
-      const res = await fetch(`http://localhost:3000/api/usertrips/${id}`, {
+      const res = await fetch(`${process.env.AUTH_URL}/api/usertrips/${id}`, {
         method: "DELETE",
         cache: "no-store",
       });

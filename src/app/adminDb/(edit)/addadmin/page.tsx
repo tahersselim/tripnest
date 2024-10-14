@@ -8,7 +8,7 @@ import Link from 'next/link';
 const BookingPage: React.FC = () => {
     const { data: session, status } = useSession();
     const router = useRouter();
-    const [loading, setLoading] = useState<boolean>(false); // Initial loading is set to false
+    const [loading, setLoading] = useState<boolean>(false); 
 
     useEffect(() => {
         if (status === "unauthenticated") {
@@ -32,7 +32,7 @@ const BookingPage: React.FC = () => {
 
     const handleAdd = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setLoading(true); // Set loading to true when the request starts
+        setLoading(true); 
         const formData = new FormData(e.currentTarget);
         const addedData = {
             name: String(formData.get('AdminName')),
