@@ -1,7 +1,7 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import NextAuth, { getServerSession, Session, User } from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
-import FacebookProvider from "next-auth/providers/facebook";
+import GoogleProvider from "next-auth/providers/google"; // Uncomment if using
+import FacebookProvider from "next-auth/providers/facebook"; // Uncomment if using
 import prisma from "./connect"; 
 import { JWT } from "next-auth/jwt";
 
@@ -32,22 +32,17 @@ export const authOptions = {
     strategy: "jwt" as const, 
   },
   providers: [
-    // Comment out providers temporarily
-    /*
     GoogleProvider({
-      clientId: process.env.AUTH_GOOGLE_ID || '', // Provide default value
-      clientSecret: process.env.AUTH_GOOGLE_SECRET || '', // Provide default value
+      clientId: process.env.AUTH_GOOGLE_ID || '', 
+      clientSecret: process.env.AUTH_GOOGLE_SECRET || '', 
     }),
     FacebookProvider({
-      clientId: process.env.AUTH_FACEBOOK_ID || '', // Provide default value
-      clientSecret: process.env.AUTH_FACEBOOK_SECRET || '', // Provide default value
+      clientId: process.env.AUTH_FACEBOOK_ID || '', 
+      clientSecret: process.env.AUTH_FACEBOOK_SECRET || '', 
     }),
-    */
   ],
   callbacks: {
     async session({ token, session }: { token: JWT; session: Session }) {
-      // Comment out session logic temporarily
-      /*
       if (token) {
         session.user = session.user || {}; 
         session.user.id = token.id;
@@ -55,12 +50,8 @@ export const authOptions = {
         session.user.isAdmin = token.role === "ADMIN";
       }
       return session;
-      */
-      return session; // Return empty session for now
     },
     async jwt({ token, user }: { token: JWT; user?: User }) {
-      // Comment out jwt logic temporarily
-      /*
       if (user) {
         token.id = user.id;
         token.email = user.email ?? undefined; // Handle email correctly
@@ -86,16 +77,12 @@ export const authOptions = {
       }
 
       token.isAdmin = token.role === "ADMIN";
-      */
-      return token; // Return token directly for now
+
+      return token;
     },
   },
 };
 
 export default NextAuth(authOptions);
 
-// Comment out session retrieval temporarily
-/*
 export const getAuthSession = () => getServerSession(authOptions);
-*/
-
