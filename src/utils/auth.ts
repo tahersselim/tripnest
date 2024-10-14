@@ -79,7 +79,7 @@ export const authOptions = {
 
         token.isAdmin = token.role === "ADMIN";
       } catch (error) {
-        console.error("Error in JWT callback: ", error); // Log error
+        console.error("Error in JWT callback: ", error); // Log error for debugging
         token.role = "USER"; // Handle gracefully in case of error
         token.isAdmin = false;
       }
