@@ -98,7 +98,7 @@ const BookingPage: React.FC = () => {
         };
 
         try {
-            const res = await fetch(`${process.env.NEXTAUTH_URL}/api/admin/addtrips`, {
+            const res = await fetch(`/api/admin/addtrips`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
