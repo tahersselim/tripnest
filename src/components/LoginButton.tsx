@@ -13,7 +13,7 @@ interface User {
 
 const getData = async (): Promise<User | null> => {
   try {
-    const res = await fetch("http://localhost:3000/api/user", {
+    const res = await fetch(`${process.env.AUTH_URL}/api/user`, {
       cache: "no-store",
     });
     if (!res.ok) {

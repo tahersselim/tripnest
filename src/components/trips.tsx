@@ -11,7 +11,7 @@ interface Trip {
 
 const getData = async (): Promise<Trip[]> => {
   try {
-    const res = await fetch("http://localhost:3000/api/trips", {
+    const res = await fetch(`${process.env.AUTH_URL}/api/trips`, {
       cache: 'default',
     });
     if (!res.ok) {
