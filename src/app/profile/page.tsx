@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 const getData = async (): Promise<User | null> => {
     try {
         const res = await fetch("/api/user", {
-            cache: "no-store",
+            cache: 'default',
         });
         if (!res.ok) {
             throw new Error("Failed to fetch user data");

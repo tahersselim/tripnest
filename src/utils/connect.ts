@@ -1,11 +1,10 @@
 import { PrismaClient } from '@prisma/client';
 
-// Singleton pattern to avoid multiple PrismaClient instances
 const prismaClientSingleton = () => {
   return new PrismaClient({
     datasources: {
       db: {
-        url: process.env.DATABASE_URL, // Use DATABASE_URL from environment variables
+        url: process.env.DATABASE_URL, // Ensures Prisma uses the environment variable
       },
     },
   });
