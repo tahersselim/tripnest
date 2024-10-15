@@ -13,8 +13,8 @@ interface User {
 
 const getData = async (): Promise<User | null> => {
   try {
-    const res = await fetch(`${process.env.AUTH_URL}/api/user`, {
-      cache: "no-store",
+    const res = await fetch(`/api/user`, {
+      cache: 'default',
     });
     if (!res.ok) {
       throw new Error("Failed to fetch user data");
